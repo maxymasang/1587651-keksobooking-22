@@ -7,6 +7,8 @@ const getRandomIntNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+getRandomIntNumber(4, 10);
+
 // Функция для проверки максимальной длины строки
 // Функция из другого домашнего задания
 const checkMaxStringLenght = function (checkedString, maxLength) {
@@ -29,4 +31,5 @@ const getRandomFloatNumber = function (min, max, signsNumber) {
   return (Math.random() * (max - min) + min).toFixed(signsNumber);
 }
 
+getRandomFloatNumber(1.1, 2.3);
 
