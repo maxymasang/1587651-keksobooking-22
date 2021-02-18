@@ -31,7 +31,7 @@ const getRandomFloatNumber = (min, max, signsNumber) => {
  * @returns {string}
  */
 const getRandomArrayItem = (arr) => {
-  return arr[getRandomIntNumber(0, arr.length)];
+  return arr[getRandomIntNumber(0, arr.length - 1)];
 }
 
 /**
@@ -61,4 +61,20 @@ const getRandomArrayLength = (arr) => {
   return randomArrayLength;
 }
 
-export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength };
+
+/**
+ * Функция получает случайное количество комнат, и возвращает строку с определенным склонением
+ * @param {Number} room
+ * @returns {String}
+ */
+const checkRoomNumber = (room) => {
+  if (room === 1) {
+    return room + ' комната для ';
+  } else if (room > 1 && room < 5) {
+    return room + ' комнаты для ';
+  } else {
+    return room + ' комнат для ';
+  }
+}
+
+export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength, checkRoomNumber };

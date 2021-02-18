@@ -1,7 +1,9 @@
+import { drawPopup } from './generate.js';
 import { generateData } from './data.js';
 
-const generating = () => {
-  generateData();
+const main = () => {
+  const data = generateData();
+  drawPopup(data[0]);
 }
 
-generating();
+main();
