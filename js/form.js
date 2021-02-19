@@ -18,7 +18,9 @@ const changeFlatPriceOnChange = () => {
   });
 }
 
-const changeCheckInOutOnCHange = () => {
+changeFlatPriceOnChange();
+
+const changeCheckInOutOnChange = () => {
   const checkin = document.querySelector('#timein');
   const checkout = document.querySelector('#timeout');
   checkin.addEventListener('change', () => {
@@ -33,4 +35,4 @@ const changeCheckInOutOnCHange = () => {
   });
 };
 
-export { changeFlatPriceOnChange, changeCheckInOutOnCHange };
+changeCheckInOutOnChange();
