@@ -1,38 +1,29 @@
-const changeFlatPriceOnChange = () => {
-  const option = document.querySelector('#type');
-  const price = document.querySelector('#price');
-  option.addEventListener('change', () => {
-    if (option.value === 'bungalow') {
-      price.placeholder = 0;
-      price.min = 0;
-    } else if (option.value === 'flat') {
-      price.placeholder = 1000;
-      price.min = 1000;
-    } else if (option.value === 'house') {
-      price.placeholder = 5000;
-      price.min = 5000;
-    } else if (option.value === 'palace') {
-      price.placeholder = 10000;
-      price.min = 10000;
-    }
-  });
+const option = document.querySelector('#type');
+const price = document.querySelector('#price');
+const flatPrice = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000,
 }
 
-changeFlatPriceOnChange();
+option.addEventListener('change', () => {
+  const priceValue = flatPrice[option.value];
+  price.placeholder = priceValue;
+  price.min = priceValue;
+});
 
-const changeCheckInOutOnChange = () => {
-  const checkin = document.querySelector('#timein');
-  const checkout = document.querySelector('#timeout');
-  checkin.addEventListener('change', () => {
-    if (checkout.value !== checkin.value) {
-      checkout.value = checkin.value;
-    }
-  });
-  checkout.addEventListener('change', () => {
-    if (checkin.value !== checkout.value) {
-      checkin.value = checkout.value;
-    }
-  });
-};
+const checkin = document.querySelector('#timein');
+const checkout = document.querySelector('#timeout');
 
-changeCheckInOutOnChange();
+checkin.addEventListener('change', () => {
+  if (checkin.value) {
+    checkout.value = checkin.value;
+  }
+});
+
+checkout.addEventListener('change', () => {
+  if (checkout.value) {
+    checkin.value = checkout.value;
+  }
+});

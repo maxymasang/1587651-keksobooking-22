@@ -27,7 +27,7 @@ const getRandomFloatNumber = (min, max, signsNumber) => {
 
 /**
  * Функция получает случайное значение из массива данных
- * @param {Array} arr
+ * @param {array} arr
  * @returns {string}
  */
 const getRandomArrayItem = (arr) => {
@@ -36,8 +36,8 @@ const getRandomArrayItem = (arr) => {
 
 /**
  * Функция перемешивает массив данных и возвращает случайный массив
- * @param {Array} arr
- * @returns {Array}
+ * @param {array} arr
+ * @returns {array}
  */
 const shuffleArray = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -52,8 +52,8 @@ const shuffleArray = (arr) => {
 
 /**
  * Функция получает случайный массив данных и возвращает массив случайной длинны
- * @param {Array} arr
- * @returns {Array}
+ * @param {array} arr
+ * @returns {array}
  */
 const getRandomArrayLength = (arr) => {
   const newArray = shuffleArray(arr);
@@ -64,8 +64,8 @@ const getRandomArrayLength = (arr) => {
 
 /**
  * Функция получает случайное количество комнат, и возвращает строку с определенным склонением
- * @param {Number} room
- * @returns {String}
+ * @param {number} room
+ * @returns {string}
  */
 const checkRoomNumber = (room) => {
   if (room === 1) {
