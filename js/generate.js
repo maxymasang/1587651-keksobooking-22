@@ -3,13 +3,8 @@ import { checkRoomNumber } from './util.js'
 const cardInsert = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const feature = document.querySelector('#card').content.querySelector('.popup__features');
-const photo = document.querySelector('#card').content.querySelector('.popup__photo');
 const photos = document.querySelector('#card').content.querySelector('.popup__photos');
-feature.innerHTML = '';
-photos.innerHTML = '';
-
-const featureFragment = document.createDocumentFragment();
-const photoFragment = document.createDocumentFragment();
+const photo = document.querySelector('#card').content.querySelector('.popup__photo');
 
 const flatType = {
   palace: 'Дворец',
@@ -19,6 +14,11 @@ const flatType = {
 };
 
 const drawPopup = (flat) => {
+  const featureFragment = document.createDocumentFragment();
+  const photoFragment = document.createDocumentFragment();
+  feature.innerHTML = '';
+  photos.innerHTML = '';
+
   const cardElement = cardTemplate.cloneNode(true);
 
   for (let i = 0; i < flat.offer.features.length; i++) {
