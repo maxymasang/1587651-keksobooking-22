@@ -1,5 +1,8 @@
 const option = document.querySelector('#type');
 const price = document.querySelector('#price');
+const checkin = document.querySelector('#timein');
+const checkout = document.querySelector('#timeout');
+
 const flatPrice = {
   bungalow: 0,
   flat: 1000,
@@ -12,9 +15,6 @@ option.addEventListener('change', () => {
   price.placeholder = priceValue;
   price.min = priceValue;
 });
-
-const checkin = document.querySelector('#timein');
-const checkout = document.querySelector('#timeout');
 
 checkin.addEventListener('change', () => {
   if (checkin.value) {
