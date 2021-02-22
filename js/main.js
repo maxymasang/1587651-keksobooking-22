@@ -1,10 +1,5 @@
-import { drawPopup } from './generate.js';
-import { generateData } from './data.js';
+import './util.js';
+import './data.js';
+import './generate.js';
 import './form.js';
-
-const main = () => {
-  const data = generateData();
-  drawPopup(data[0]);
-}
-
-main();
+import './map.js';

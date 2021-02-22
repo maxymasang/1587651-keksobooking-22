@@ -1,6 +1,5 @@
-import { checkRoomNumber } from './util.js'
+import { checkRoomNumber } from './util.js';
 
-const cardInsert = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const feature = document.querySelector('#card').content.querySelector('.popup__features');
 const photos = document.querySelector('#card').content.querySelector('.popup__photos');
@@ -13,6 +12,7 @@ const flatType = {
   bungalow: 'Бунгало',
 };
 
+// Функция создает DOM-элементы на основе сгенерированых данных
 const drawPopup = (flat) => {
   const featureFragment = document.createDocumentFragment();
   const photoFragment = document.createDocumentFragment();
@@ -45,7 +45,7 @@ const drawPopup = (flat) => {
   cardElement.querySelector('.popup__photos').appendChild(photoFragment);
   cardElement.querySelector('.popup__avatar').src = flat.author.avatar;
 
-  cardInsert.appendChild(cardElement);
+  return cardElement;
 }
 
 export { drawPopup };
