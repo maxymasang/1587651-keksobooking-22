@@ -1,9 +1,7 @@
 import { generateData } from './data.js';
 import { drawPopup } from './generate.js';
+import { unblockForms } from './form.js';
 
-const filterForm = document.querySelector('.map__filters');
-const announcementForm = document.querySelector('.ad-form');
-const formElements = document.querySelectorAll('select, fieldset');
 const address = document.querySelector('#address');
 
 const leaflet = window.L;
@@ -78,28 +76,6 @@ const generatePoints = () => {
     );
 
     sideMarker.addTo(map).bindPopup(drawPopup(data[i]));
-  }
-}
-
-/**
- * Функция добавляет класс модификатор для форм, а также отключает интерактивные элементы формы
- */
-window.addEventListener('load', () => {
-  filterForm.classList.add('map__filters--disabled');
-  announcementForm.classList.add('ad-form--disabled');
-  for (let i = 0; i < formElements.length; i++) {
-    formElements[i].disabled = true;
-  }
-});
-
-/**
- * Функция удаляет класс модификатор с форм, а также включет интерактивные элементы формы
- */
-const unblockForms = () => {
-  filterForm.classList.remove('map__filters--disabled');
-  announcementForm.classList.remove('ad-form--disabled');
-  for (let i = 0; i < formElements.length; i++) {
-    formElements[i].disabled = false;
   }
 }
 
