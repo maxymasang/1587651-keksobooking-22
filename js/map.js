@@ -1,33 +1,31 @@
-/* global L:readonly */
-import { unblockForms } from './form.js';
 import { generateData } from './data.js';
 import { drawPopup } from './generate.js';
 
+const filterForm = document.querySelector('.map__filters');
+const announcementForm = document.querySelector('.ad-form');
+const formElements = document.querySelectorAll('select, fieldset');
 const address = document.querySelector('#address');
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    unblockForms();
-  })
-  .setView({
-    lat: 35.6810912,
-    lng: 139.7671861,
-  }, 12);
+const leaflet = window.L;
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+/**
+ * Объявление карты
+ */
+const map = leaflet.map('map-canvas');
 
-const mainMarkerIcon = L.icon({
+/**
+ * Иконка маркера
+ */
+const mainMarkerIcon = leaflet.icon({
   iconUrl: '../img/main-pin.svg',
   iconSize: [50, 50],
   iconAnchor: [25, 50],
 });
 
-const mainMarker = L.marker(
+/**
+ * Координаты и настройка маркера
+ */
+const mainMarker = leaflet.marker(
   {
     lat: 35.6810912,
     lng: 139.7671861,
@@ -38,30 +36,38 @@ const mainMarker = L.marker(
   },
 );
 
+/**
+ * Отрисовка карты и добавление маркера на карту
+ */
+leaflet.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 mainMarker.addTo(map);
 
-const mainMarkerCoordinates = () => {
-  address.disabled = true;
-  address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
+/**
+ * Событие отвечает за вывод координат маркера после перемщения на карте
+ */
+mainMarker.on('moveend', (evt) => {
+  address.value = 'Ширина: ' + evt.target.getLatLng().lat.toFixed(5) + ', Высота: ' + evt.target.getLatLng().lng.toFixed(5);
+});
 
-  mainMarker.on('moveend', (evt) => {
-    address.value = 'Ширина: ' + evt.target.getLatLng().lat.toFixed(5) + ', Высота: ' + evt.target.getLatLng().lng.toFixed(5);
-  });
-}
-
-mainMarkerCoordinates();
-
+/**
+ * Функция отрисовывает сгенерированные объявления на карте
+ */
 const generatePoints = () => {
   const data = generateData();
 
   for (let i = 0; i < data.length; i++) {
-    const sideIcon = L.icon({
+    const sideIcon = leaflet.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [20, 20],
       iconAnchor: [10, 20],
     });
 
-    const sideMarker = L.marker(
+    const sideMarker = leaflet.marker(
       {
         lat: data[i].location.x,
         lng: data[i].location.y,
@@ -75,4 +81,37 @@ const generatePoints = () => {
   }
 }
 
-generatePoints();
+/**
+ * Функция добавляет класс модификатор для форм, а также отключает интерактивные элементы формы
+ */
+window.addEventListener('load', () => {
+  filterForm.classList.add('map__filters--disabled');
+  announcementForm.classList.add('ad-form--disabled');
+  for (let i = 0; i < formElements.length; i++) {
+    formElements[i].disabled = true;
+  }
+});
+
+/**
+ * Функция удаляет класс модификатор с форм, а также включет интерактивные элементы формы
+ */
+const unblockForms = () => {
+  filterForm.classList.remove('map__filters--disabled');
+  announcementForm.classList.remove('ad-form--disabled');
+  for (let i = 0; i < formElements.length; i++) {
+    formElements[i].disabled = false;
+  }
+}
+
+map.on('load', () => {
+  unblockForms();
+  generatePoints();
+  address.readOnly = true;
+  address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
+});
+map.setView({
+  lat: 35.6810912,
+  lng: 139.7671861,
+}, 12);
+
+

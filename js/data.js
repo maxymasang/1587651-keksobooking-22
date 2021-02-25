@@ -6,7 +6,9 @@ const CKECKOUT_TIMES = ['12:00', '13:00', '14:00'];
 const FEATURE_TYPES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-// Функция генерирует массив из 10 объектов
+/**
+ * Функция генерирует массив из 10 объектов
+ */
 const generateData = () => {
   const flats = [];
 

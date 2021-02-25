@@ -12,7 +12,11 @@ const flatType = {
   bungalow: 'Бунгало',
 };
 
-// Функция создает DOM-элементы на основе сгенерированых данных
+/**
+ * Функция создает DOM-элементы на основе сгенерированых данных
+ * @param {array} flat
+ * @returns {array}
+ */
 const drawPopup = (flat) => {
   const featureFragment = document.createDocumentFragment();
   const photoFragment = document.createDocumentFragment();
