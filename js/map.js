@@ -3,6 +3,8 @@ import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
 
 const address = document.querySelector('#address');
+const roomNumber = document.querySelector('#room_number');
+const roomCapacity = document.querySelector('#capacity');
 
 const leaflet = window.L;
 
@@ -35,7 +37,8 @@ const mainMarker = leaflet.marker(
 );
 
 /**
- * Отрисовка карты и добавление маркера на карту
+ * Отрисовка карты
+ * добавление маркера на карту
  */
 leaflet.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -79,6 +82,11 @@ const generatePoints = () => {
   }
 }
 
+/**
+ * Событие отвечает за включение интерактивных элементов форм,
+ * добавление сгенерированых объявлений на карте,
+ * установку дефолтного значения поля с координатами
+ */
 map.on('load', () => {
   unblockForms();
   generatePoints();
@@ -90,4 +98,16 @@ map.setView({
   lng: 139.7671861,
 }, 12);
 
-
+/**
+ * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
+ */
+roomNumber.addEventListener('change', () => {
+  if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
+    roomNumber.setCustomValidity('Не для гостей');
+  } else if (roomNumber.value < roomCapacity.value) {
+    roomNumber.setCustomValidity('Количество комнат не может быть меньше чем количество гостей');
+  } else {
+    roomNumber.setCustomValidity('');
+  }
+  roomNumber.reportValidity();
+})
