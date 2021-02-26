@@ -3,8 +3,6 @@ import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
 
 const address = document.querySelector('#address');
-const roomNumber = document.querySelector('#room_number');
-const roomCapacity = document.querySelector('#capacity');
 
 const leaflet = window.L;
 
@@ -97,17 +95,3 @@ map.setView({
   lat: 35.6810912,
   lng: 139.7671861,
 }, 12);
-
-/**
- * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
- */
-roomNumber.addEventListener('change', () => {
-  if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
-    roomNumber.setCustomValidity('Не для гостей');
-  } else if (roomNumber.value < roomCapacity.value) {
-    roomNumber.setCustomValidity('Количество комнат не может быть меньше чем количество гостей');
-  } else {
-    roomNumber.setCustomValidity('');
-  }
-  roomNumber.reportValidity();
-})

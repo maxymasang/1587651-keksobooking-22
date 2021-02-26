@@ -1,10 +1,12 @@
-const option = document.querySelector('#type');
-const price = document.querySelector('#price');
-const checkin = document.querySelector('#timein');
-const checkout = document.querySelector('#timeout');
 const filterForm = document.querySelector('.map__filters');
 const announcementForm = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('select, fieldset');
+const option = announcementForm.querySelector('#type');
+const price = announcementForm.querySelector('#price');
+const checkin = announcementForm.querySelector('#timein');
+const checkout = announcementForm.querySelector('#timeout');
+const roomNumber = announcementForm.querySelector('#room_number');
+const roomCapacity = announcementForm.querySelector('#capacity');
 
 const flatPrice = {
   bungalow: 0,
@@ -68,5 +70,19 @@ checkout.addEventListener('change', () => {
     checkin.value = checkout.value;
   }
 });
+
+/**
+ * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
+ */
+roomNumber.addEventListener('change', () => {
+  if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
+    roomNumber.setCustomValidity('Не для гостей');
+  } else if (roomNumber.value < roomCapacity.value) {
+    roomNumber.setCustomValidity('Количество комнат не может быть меньше чем количество гостей');
+  } else {
+    roomNumber.setCustomValidity('');
+  }
+  roomNumber.reportValidity();
+})
 
 export { unblockForms }
