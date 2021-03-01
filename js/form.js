@@ -1,10 +1,13 @@
-const option = document.querySelector('#type');
-const price = document.querySelector('#price');
-const checkin = document.querySelector('#timein');
-const checkout = document.querySelector('#timeout');
 const filterForm = document.querySelector('.map__filters');
 const announcementForm = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('select, fieldset');
+const option = announcementForm.querySelector('#type');
+const price = announcementForm.querySelector('#price');
+const checkin = announcementForm.querySelector('#timein');
+const checkout = announcementForm.querySelector('#timeout');
+const roomNumber = announcementForm.querySelector('#room_number');
+const roomCapacity = announcementForm.querySelector('#capacity');
+const submit = announcementForm.querySelector('.ad-form__submit');
 
 const flatPrice = {
   bungalow: 0,
@@ -14,7 +17,8 @@ const flatPrice = {
 }
 
 /**
- * Функция добавляет класс модификатор для форм, а также отключает интерактивные элементы формы
+ * Функция добавляет класс модификатор для форм,
+ * а также отключает интерактивные элементы формы
  */
 const blockForms = () => {
   filterForm.classList.add('map__filters--disabled');
@@ -27,7 +31,8 @@ const blockForms = () => {
 blockForms();
 
 /**
- * Функция удаляет класс модификатор с форм, а также включет интерактивные элементы формы
+ * Функция удаляет класс модификатор с форм,
+ * а также включет интерактивные элементы формы
  */
 const unblockForms = () => {
   filterForm.classList.remove('map__filters--disabled');
@@ -38,7 +43,8 @@ const unblockForms = () => {
 }
 
 /**
- * Событие отвечает за выбор опции (Тип жилья) и  меняет атрибуты минимального значения и плейсхолдера поля (Цена за ночь, руб)
+ * Событие отвечает за выбор опции (Тип жилья)
+ * и меняет атрибуты минимального значения и плейсхолдера поля (Цена за ночь, руб)
  */
 option.addEventListener('change', () => {
   const priceValue = flatPrice[option.value];
@@ -47,7 +53,8 @@ option.addEventListener('change', () => {
 });
 
 /**
- * Событие отвечает за выбор опции поля (Время заезда) и автоматически изменят значение поля (Время выезда)
+ * Событие отвечает за выбор опции поля (Время заезда)
+ * и автоматически изменят значение поля (Время выезда)
  */
 checkin.addEventListener('change', () => {
   if (checkin.value) {
@@ -56,12 +63,27 @@ checkin.addEventListener('change', () => {
 });
 
 /**
- * Событие отвечает за выбор опции поля (Время выезда) и автоматически изменят значение поля (Время заезда)
+ * Событие отвечает за выбор опции поля (Время выезда)
+ * и автоматически изменят значение поля (Время заезда)
  */
 checkout.addEventListener('change', () => {
   if (checkout.value) {
     checkin.value = checkout.value;
   }
 });
+
+/**
+ * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
+ */
+submit.addEventListener('click', () => {
+  if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
+    roomNumber.setCustomValidity('Не для гостей');
+  } else if (roomNumber.value < roomCapacity.value) {
+    roomNumber.setCustomValidity('Количество комнат не может быть меньше чем количество гостей');
+  } else {
+    roomNumber.setCustomValidity('');
+  }
+  roomNumber.reportValidity();
+})
 
 export { unblockForms }
