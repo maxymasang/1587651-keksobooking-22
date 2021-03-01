@@ -7,6 +7,7 @@ const checkin = announcementForm.querySelector('#timein');
 const checkout = announcementForm.querySelector('#timeout');
 const roomNumber = announcementForm.querySelector('#room_number');
 const roomCapacity = announcementForm.querySelector('#capacity');
+const submit = announcementForm.querySelector('.ad-form__submit');
 
 const flatPrice = {
   bungalow: 0,
@@ -74,7 +75,7 @@ checkout.addEventListener('change', () => {
 /**
  * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
  */
-roomNumber.addEventListener('change', () => {
+submit.addEventListener('click', () => {
   if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
     roomNumber.setCustomValidity('Не для гостей');
   } else if (roomNumber.value < roomCapacity.value) {
