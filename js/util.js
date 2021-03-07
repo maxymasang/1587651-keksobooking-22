@@ -1,3 +1,6 @@
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+
 /**
  * Функция, возвращающая случайное целое число из переданного диапазона включительно
  * @param {number} min - минимальное число
@@ -77,4 +80,28 @@ const checkRoomNumber = (room) => {
   }
 }
 
-export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength, checkRoomNumber };
+const showFormAlert = (message) => {
+  const errorBlock = errorTemplate.cloneNode(true);
+  const errorButton = errorBlock.querySelector('.error__button');
+
+  errorButton.remove();
+  errorBlock.querySelector('.error__message').textContent = message;
+  document.body.append(errorBlock);
+
+  setTimeout(() => {
+    errorBlock.remove();
+  }, 2500);
+}
+
+const showFormSucces = (message) => {
+  const successBlock = successTemplate.cloneNode(true);
+
+  successBlock.querySelector('.success__message').textContent = message;
+  document.body.append(successBlock);
+
+  setTimeout(() => {
+    successBlock.remove();
+  }, 2500);
+}
+
+export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength, checkRoomNumber, showFormAlert, showFormSucces };

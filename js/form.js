@@ -1,3 +1,7 @@
+import { setDefaultCoordinate } from './map.js';
+import { showFormAlert, showFormSucces } from './util.js';
+import { sendData } from './data-service.js';
+
 const filterForm = document.querySelector('.map__filters');
 const announcementForm = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('select, fieldset');
@@ -8,6 +12,7 @@ const checkout = announcementForm.querySelector('#timeout');
 const roomNumber = announcementForm.querySelector('#room_number');
 const roomCapacity = announcementForm.querySelector('#capacity');
 const submit = announcementForm.querySelector('.ad-form__submit');
+const clear = announcementForm.querySelector('.ad-form__reset');
 
 const flatPrice = {
   bungalow: 0,
@@ -86,4 +91,31 @@ submit.addEventListener('click', () => {
   roomNumber.reportValidity();
 })
 
-export { unblockForms }
+/**
+ * Функция сбрасывает поля формы, и устанавливает координаты по умолчанию
+ */
+const formReset = () => {
+  announcementForm.reset();
+  setTimeout(setDefaultCoordinate, 0);
+}
+
+/**
+ * Событие отвечает за сбрасывание поля формы, и устанавливает координаты по умолчанию
+ */
+clear.addEventListener('click', () => {
+  formReset();
+})
+
+const setUserFormSubmit = () => {
+  announcementForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => showFormSucces('Успех'),
+      () => showFormAlert('Непредвиденная ошибка'),
+      new FormData(evt.target),
+    )
+  })
+}
+
+export { unblockForms, setUserFormSubmit, formReset }
