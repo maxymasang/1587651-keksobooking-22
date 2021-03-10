@@ -1,3 +1,5 @@
+import { formReset } from './form.js';
+
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 
@@ -98,6 +100,7 @@ const showFormSucces = (message) => {
 
   successBlock.querySelector('.success__message').textContent = message;
   document.body.append(successBlock);
+  formReset();
 
   setTimeout(() => {
     successBlock.remove();
