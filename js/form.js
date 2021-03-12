@@ -102,20 +102,19 @@ const formReset = () => {
 /**
  * Событие отвечает за сбрасывание поля формы, и устанавливает координаты по умолчанию
  */
-clear.addEventListener('click', () => {
+clear.addEventListener('click', (evt) => {
+  evt.preventDefault();
   formReset();
 })
 
-const setUserFormSubmit = () => {
-  announcementForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+announcementForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
-    sendData(
-      () => showFormSucces('Успех'),
-      () => showFormAlert('Непредвиденная ошибка'),
-      new FormData(evt.target),
-    )
-  })
-}
+  sendData(
+    () => showFormSucces('Успех'),
+    () => showFormAlert('Непредвиденная ошибка'),
+    new FormData(evt.target),
+  )
+})
 
-export { unblockForms, setUserFormSubmit, formReset }
+export { unblockForms, formReset }

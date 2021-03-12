@@ -1,7 +1,7 @@
 import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
 
-const MARKER_COORDINATE = {
+const marketCoordinate = {
   lat: 35.6810912,
   lng: 139.7671861,
 }
@@ -28,7 +28,7 @@ const mainMarkerIcon = leaflet.icon({
  * Координаты и настройка маркера
  */
 const mainMarker = leaflet.marker(
-  MARKER_COORDINATE,
+  marketCoordinate,
   {
     draggable: true,
     icon: mainMarkerIcon,
@@ -39,7 +39,7 @@ const mainMarker = leaflet.marker(
  * Функция устанавливает координаты по умолчанию
  */
 const setDefaultCoordinate = () => {
-  mainMarker.setLatLng(MARKER_COORDINATE);
+  mainMarker.setLatLng(marketCoordinate);
   address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
 }
 
