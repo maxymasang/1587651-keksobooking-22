@@ -1,3 +1,8 @@
+import { formReset } from './form.js';
+
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+
 /**
  * Функция, возвращающая случайное целое число из переданного диапазона включительно
  * @param {number} min - минимальное число
@@ -77,4 +82,45 @@ const checkRoomNumber = (room) => {
   }
 }
 
-export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength, checkRoomNumber };
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const showFormAlert = (message) => {
+  const errorBlock = errorTemplate.cloneNode(true);
+  const errorButton = errorBlock.querySelector('.error__button');
+
+  errorButton.remove();
+  errorBlock.querySelector('.error__message').textContent = message;
+  document.body.append(errorBlock);
+
+  document.addEventListener('keydown', function (evt) {
+    if (isEscEvent(evt)) {
+      errorBlock.remove();
+    }
+  });
+
+  document.addEventListener('click', function () {
+    errorBlock.remove();
+  });
+}
+
+const showFormSucces = (message) => {
+  const successBlock = successTemplate.cloneNode(true);
+
+  successBlock.querySelector('.success__message').textContent = message;
+  document.body.append(successBlock);
+  formReset();
+
+  document.addEventListener('keydown', function (evt) {
+    if (isEscEvent(evt)) {
+      successBlock.remove();
+    }
+  });
+
+  document.addEventListener('click', function () {
+    successBlock.remove();
+  });
+}
+
+export { getRandomIntNumber, getRandomFloatNumber, getRandomArrayItem, getRandomArrayLength, checkRoomNumber, showFormAlert, showFormSucces };

@@ -32,9 +32,9 @@ const drawPopup = (flat) => {
     featureFragment.appendChild(featureElement);
   }
 
-  for (let i = 0; i < flat.offer.photo.length; i++) {
+  for (let i = 0; i < flat.offer.photos.length; i++) {
     const photoElement = photo.cloneNode(true);
-    photoElement.src = flat.offer.photo[i];
+    photoElement.src = flat.offer.photos[i];
     photoFragment.appendChild(photoElement);
   }
 

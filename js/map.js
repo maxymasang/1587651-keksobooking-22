@@ -1,6 +1,10 @@
-import { generateData } from './data.js';
 import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
+
+const marketCoordinate = {
+  lat: 35.6810912,
+  lng: 139.7671861,
+}
 
 const address = document.querySelector('#address');
 
@@ -24,15 +28,20 @@ const mainMarkerIcon = leaflet.icon({
  * Координаты и настройка маркера
  */
 const mainMarker = leaflet.marker(
-  {
-    lat: 35.6810912,
-    lng: 139.7671861,
-  },
+  marketCoordinate,
   {
     draggable: true,
     icon: mainMarkerIcon,
   },
 );
+
+/**
+ * Функция устанавливает координаты по умолчанию
+ */
+const setDefaultCoordinate = () => {
+  mainMarker.setLatLng(marketCoordinate);
+  address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
+}
 
 /**
  * Отрисовка карты
@@ -56,8 +65,7 @@ mainMarker.on('moveend', (evt) => {
 /**
  * Функция отрисовывает сгенерированные объявления на карте
  */
-const generatePoints = () => {
-  const data = generateData();
+const generatePoints = (data) => {
 
   for (let i = 0; i < data.length; i++) {
     const sideIcon = leaflet.icon({
@@ -68,8 +76,8 @@ const generatePoints = () => {
 
     const sideMarker = leaflet.marker(
       {
-        lat: data[i].location.x,
-        lng: data[i].location.y,
+        lat: data[i].location.lat,
+        lng: data[i].location.lng,
       },
       {
         sideIcon,
@@ -85,13 +93,17 @@ const generatePoints = () => {
  * добавление сгенерированых объявлений на карте,
  * установку дефолтного значения поля с координатами
  */
-map.on('load', () => {
-  unblockForms();
-  generatePoints();
-  address.readOnly = true;
-  address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
-});
-map.setView({
-  lat: 35.6810912,
-  lng: 139.7671861,
-}, 12);
+const initMap = (points) => {
+  map.on('load', () => {
+    unblockForms();
+    generatePoints(points);
+    address.readOnly = true;
+    address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
+  });
+  map.setView({
+    lat: 35.6810912,
+    lng: 139.7671861,
+  }, 9);
+}
+
+export { initMap, setDefaultCoordinate }
