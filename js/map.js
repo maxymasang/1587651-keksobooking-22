@@ -1,5 +1,11 @@
 import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
+import { filterForm } from './filter.js';
+
+const mapFilters = document.querySelector('.map__filters');
+const mapFeatures = document.querySelector('.map__features');
+
+const savedPoints = [];
 
 const marketCoordinate = {
   lat: 35.6810912,
@@ -83,9 +89,22 @@ const generatePoints = (data) => {
         sideIcon,
       },
     );
-
     sideMarker.addTo(map).bindPopup(drawPopup(data[i]));
+    mapFilters.addEventListener('change', (evt) => {
+      if (evt.target.className === 'map__filter') {
+        sideMarker.remove();
+      }
+    })
+    mapFeatures.addEventListener('click', (evt) => {
+      if (evt.target.className === 'map__checkbox visually-hidden') {
+        sideMarker.remove();
+      }
+    })
   }
+}
+
+const drewPoints = (points) => {
+  generatePoints(filterForm(points));
 }
 
 /**
@@ -94,9 +113,10 @@ const generatePoints = (data) => {
  * установку дефолтного значения поля с координатами
  */
 const initMap = (points) => {
+  savedPoints.push(...points);
   map.on('load', () => {
     unblockForms();
-    generatePoints(points);
+    drewPoints(savedPoints);
     address.readOnly = true;
     address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
   });
@@ -105,5 +125,19 @@ const initMap = (points) => {
     lng: 139.7671861,
   }, 9);
 }
+
+mapFilters.addEventListener('change', (evt) => {
+  if (evt.target.className === 'map__filter') {
+    map.closePopup();
+    drewPoints(savedPoints);
+  }
+})
+
+mapFeatures.addEventListener('click', (evt) => {
+  if (evt.target.className === 'map__checkbox visually-hidden') {
+    map.closePopup();
+    drewPoints(savedPoints);
+  }
+})
 
 export { initMap, setDefaultCoordinate }
