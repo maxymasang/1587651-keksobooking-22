@@ -2,6 +2,8 @@ const housingType = document.querySelector('#housing-type');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingPrice = document.querySelector('#housing-price');
 const housingGuests = document.querySelector('#housing-guests');
+const housingFeatures = document.querySelector('#housing-features');
+const featuresCheckbox = housingFeatures.querySelectorAll('input');
 
 const MIDDLE_PRICE = {
   min: 10000,
@@ -34,14 +36,12 @@ const filterByGuests = (point) => {
 }
 
 const filterByFeatures = (point) => {
-  const housingFeatures = document.querySelector('#housing-features');
-  const features = housingFeatures.querySelectorAll('input:checked');
-  const featuresArr = [];
+  const features = Array.from(featuresCheckbox).filter((checkbox) => checkbox.checked);
 
+  const featuresArr = features.map((feature) => {
+    return feature.value;
+  });
 
-  for (const feature of features) {
-    featuresArr.push(feature.value)
-  }
   return featuresArr.every((item) => point.offer.features.includes(item));
 }
 

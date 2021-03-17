@@ -3,7 +3,6 @@ import { unblockForms } from './form.js';
 import { filterForm } from './filter.js';
 
 const mapFilters = document.querySelector('.map__filters');
-const mapFeatures = document.querySelector('.map__features');
 
 const savedPoints = [];
 
@@ -91,12 +90,7 @@ const generatePoints = (data) => {
     );
     sideMarker.addTo(map).bindPopup(drawPopup(data[i]));
     mapFilters.addEventListener('change', (evt) => {
-      if (evt.target.className === 'map__filter') {
-        sideMarker.remove();
-      }
-    })
-    mapFeatures.addEventListener('click', (evt) => {
-      if (evt.target.className === 'map__checkbox visually-hidden') {
+      if (evt.target.classList.contains('map__filter') || evt.target.classList.contains('map__checkbox')) {
         sideMarker.remove();
       }
     })
@@ -127,14 +121,7 @@ const initMap = (points) => {
 }
 
 mapFilters.addEventListener('change', (evt) => {
-  if (evt.target.className === 'map__filter') {
-    map.closePopup();
-    drewPoints(savedPoints);
-  }
-})
-
-mapFeatures.addEventListener('click', (evt) => {
-  if (evt.target.className === 'map__checkbox visually-hidden') {
+  if (evt.target.classList.contains('map__filter') || evt.target.classList.contains('map__checkbox')) {
     map.closePopup();
     drewPoints(savedPoints);
   }
