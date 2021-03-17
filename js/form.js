@@ -107,6 +107,9 @@ clear.addEventListener('click', (evt) => {
   formReset();
 })
 
+/**
+ * Событие отвечает за отправку данных
+ */
 announcementForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
