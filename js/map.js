@@ -1,6 +1,10 @@
+/* global _:readonly */
+
 import { drawPopup } from './generate.js';
 import { unblockForms } from './form.js';
 import { filterForm } from './filter.js';
+
+const RERENDER_DELAY = 500;
 
 const mapFilters = document.querySelector('.map__filters');
 
@@ -120,11 +124,11 @@ const initMap = (points) => {
   }, 9);
 }
 
-mapFilters.addEventListener('change', (evt) => {
+mapFilters.addEventListener('change', _.debounce((evt) => {
   if (evt.target.classList.contains('map__filter') || evt.target.classList.contains('map__checkbox')) {
     map.closePopup();
     drewPoints(savedPoints);
   }
-})
+}, RERENDER_DELAY))
 
 export { initMap, setDefaultCoordinate }
