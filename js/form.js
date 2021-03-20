@@ -5,6 +5,7 @@ import { sendData } from './data-service.js';
 const filterForm = document.querySelector('.map__filters');
 const announcementForm = document.querySelector('.ad-form');
 const formElements = document.querySelectorAll('select, fieldset');
+const announcementFormElements = announcementForm.querySelectorAll('input, select');
 const option = announcementForm.querySelector('#type');
 const price = announcementForm.querySelector('#price');
 const checkin = announcementForm.querySelector('#timein');
@@ -14,11 +15,16 @@ const roomCapacity = announcementForm.querySelector('#capacity');
 const submit = announcementForm.querySelector('.ad-form__submit');
 const clear = announcementForm.querySelector('.ad-form__reset');
 
-const flatPrice = {
+const FlatPrice = {
   bungalow: 0,
   flat: 1000,
   house: 5000,
   palace: 10000,
+}
+
+const RoomNumber = {
+  min: 0,
+  max: 100,
 }
 
 /**
@@ -28,9 +34,10 @@ const flatPrice = {
 const blockForms = () => {
   filterForm.classList.add('map__filters--disabled');
   announcementForm.classList.add('ad-form--disabled');
-  for (let i = 0; i < formElements.length; i++) {
-    formElements[i].disabled = true;
-  }
+
+  formElements.forEach((element) => {
+    element.disabled = true;
+  })
 };
 
 blockForms();
@@ -42,9 +49,10 @@ blockForms();
 const unblockForms = () => {
   filterForm.classList.remove('map__filters--disabled');
   announcementForm.classList.remove('ad-form--disabled');
-  for (let i = 0; i < formElements.length; i++) {
-    formElements[i].disabled = false;
-  }
+
+  formElements.forEach((element) => {
+    element.disabled = false;
+  })
 }
 
 /**
@@ -52,7 +60,7 @@ const unblockForms = () => {
  * и меняет атрибуты минимального значения и плейсхолдера поля (Цена за ночь, руб)
  */
 option.addEventListener('change', () => {
-  const priceValue = flatPrice[option.value];
+  const priceValue = FlatPrice[option.value];
   price.placeholder = priceValue;
   price.min = priceValue;
 });
@@ -81,7 +89,7 @@ checkout.addEventListener('change', () => {
  * Событие отвечает за проверку количества комнат и сравнивает с количеством мест
  */
 submit.addEventListener('click', () => {
-  if (roomNumber.value == 100 && roomCapacity.value > 0 || roomCapacity.value == 0 && roomNumber.value < 100) {
+  if (Number(roomNumber.value) === RoomNumber.max && Number(roomCapacity.value) > RoomNumber.min || Number(roomCapacity.value) === RoomNumber.min && Number(roomNumber.value) < RoomNumber.max) {
     roomNumber.setCustomValidity('Не для гостей');
   } else if (roomNumber.value < roomCapacity.value) {
     roomNumber.setCustomValidity('Количество комнат не может быть меньше чем количество гостей');
@@ -107,11 +115,21 @@ clear.addEventListener('click', (evt) => {
   formReset();
 })
 
+announcementFormElements.forEach((element) => {
+  element.addEventListener('invalid', () => {
+    element.style.border = '1px solid red';
+  })
+})
+
 /**
  * Событие отвечает за отправку данных
  */
 announcementForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
+
+  announcementFormElements.forEach((element) => {
+    element.style = '';
+  })
 
   sendData(
     () => showFormSucces('Успех'),

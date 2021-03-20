@@ -3,6 +3,11 @@ import { formReset } from './form.js';
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 
+const RoomNumber = {
+  min: 1,
+  max: 5,
+}
+
 /**
  * Функция, возвращающая случайное целое число из переданного диапазона включительно
  * @param {number} min - минимальное число
@@ -45,13 +50,13 @@ const getRandomArrayItem = (arr) => {
  * @returns {array}
  */
 const shuffleArray = (arr) => {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const temp = arr[i];
-    const random = Math.floor(Math.random() * (i + 1));
+  arr.forEach((element) => {
+    const temp = element;
+    const random = Math.floor(Math.random() * (element + 1));
 
-    arr[i] = arr[random];
+    element = arr[random];
     arr[random] = temp;
-  }
+  })
   return arr;
 }
 
@@ -73,13 +78,12 @@ const getRandomArrayLength = (arr) => {
  * @returns {string}
  */
 const checkRoomNumber = (room) => {
-  if (room === 1) {
+  if (room === RoomNumber.min) {
     return room + ' комната для ';
-  } else if (room > 1 && room < 5) {
+  } else if (room > RoomNumber.min && room < RoomNumber.max) {
     return room + ' комнаты для ';
-  } else {
-    return room + ' комнат для ';
   }
+  return room + ' комнат для ';
 }
 
 const isEscEvent = (evt) => {
@@ -90,19 +94,29 @@ const showFormAlert = (message) => {
   const errorBlock = errorTemplate.cloneNode(true);
   const errorButton = errorBlock.querySelector('.error__button');
 
+  const removeListener = () => {
+    document.removeEventListener('keydown', escEvent);
+    document.removeEventListener('click', errRemove);
+  }
+
+  const escEvent = (evt) => {
+    if (isEscEvent(evt)) {
+      errorBlock.remove();
+      removeListener();
+    }
+  }
+
+  const errRemove = () => {
+    errorBlock.remove();
+    removeListener();
+  }
+
   errorButton.remove();
   errorBlock.querySelector('.error__message').textContent = message;
   document.body.append(errorBlock);
 
-  document.addEventListener('keydown', function (evt) {
-    if (isEscEvent(evt)) {
-      errorBlock.remove();
-    }
-  });
-
-  document.addEventListener('click', function () {
-    errorBlock.remove();
-  });
+  document.addEventListener('keydown', escEvent);
+  document.addEventListener('click', errRemove);
 }
 
 const showFormSucces = (message) => {
