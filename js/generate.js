@@ -25,18 +25,18 @@ const drawPopup = (flat) => {
 
   const cardElement = cardTemplate.cloneNode(true);
 
-  for (let i = 0; i < flat.offer.features.length; i++) {
+  flat.offer.features.forEach((feature) => {
     const featureElement = document.createElement('li');
     featureElement.classList.add('popup__feature');
-    featureElement.classList.add('popup__feature--' + flat.offer.features[i]);
+    featureElement.classList.add('popup__feature--' + feature);
     featureFragment.appendChild(featureElement);
-  }
+  })
 
-  for (let i = 0; i < flat.offer.photos.length; i++) {
+  flat.offer.photos.forEach((picture) => {
     const photoElement = photo.cloneNode(true);
-    photoElement.src = flat.offer.photos[i];
+    photoElement.src = picture;
     photoFragment.appendChild(photoElement);
-  }
+  })
 
   cardElement.querySelector('.popup__title').textContent = flat.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = flat.offer.address;
@@ -44,9 +44,17 @@ const drawPopup = (flat) => {
   cardElement.querySelector('.popup__type').textContent = flatType[flat.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = checkRoomNumber(flat.offer.rooms) + flat.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${flat.offer.checkin}, выезд до  ${flat.offer.checkout}`;
-  cardElement.querySelector('.popup__features').appendChild(featureFragment);
+  if ((flat.offer.features).length) {
+    cardElement.querySelector('.popup__features').appendChild(featureFragment);
+  } else {
+    cardElement.querySelector('.popup__features').remove();
+  }
+  if ((flat.offer.photos).length) {
+    cardElement.querySelector('.popup__photos').appendChild(photoFragment);
+  } else {
+    cardElement.querySelector('.popup__photos').remove();
+  }
   cardElement.querySelector('.popup__description').textContent = flat.offer.description;
-  cardElement.querySelector('.popup__photos').appendChild(photoFragment);
   cardElement.querySelector('.popup__avatar').src = flat.author.avatar;
 
   return cardElement;

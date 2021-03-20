@@ -68,15 +68,14 @@ mainMarker.addTo(map);
  * Событие отвечает за вывод координат маркера после перемщения на карте
  */
 mainMarker.on('moveend', (evt) => {
-  address.value = 'Ширина: ' + evt.target.getLatLng().lat.toFixed(5) + ', Высота: ' + evt.target.getLatLng().lng.toFixed(5);
+  address.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
 /**
  * Функция отрисовывает сгенерированные объявления на карте
  */
 const generatePoints = (data) => {
-
-  for (let i = 0; i < data.length; i++) {
+  data.forEach((pin) => {
     const sideIcon = leaflet.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [20, 20],
@@ -85,20 +84,20 @@ const generatePoints = (data) => {
 
     const sideMarker = leaflet.marker(
       {
-        lat: data[i].location.lat,
-        lng: data[i].location.lng,
+        lat: pin.location.lat,
+        lng: pin.location.lng,
       },
       {
         sideIcon,
       },
     );
-    sideMarker.addTo(map).bindPopup(drawPopup(data[i]));
+    sideMarker.addTo(map).bindPopup(drawPopup(pin));
     mapFilters.addEventListener('change', (evt) => {
       if (evt.target.classList.contains('map__filter') || evt.target.classList.contains('map__checkbox')) {
         sideMarker.remove();
       }
     })
-  }
+  })
 }
 
 const drewPoints = (points) => {
@@ -116,7 +115,7 @@ const initMap = (points) => {
     unblockForms();
     drewPoints(savedPoints);
     address.readOnly = true;
-    address.value = 'Ширина: ' + mainMarker._latlng.lat.toFixed(5) + ', Высота: ' + mainMarker._latlng.lng.toFixed(5);
+    address.value = mainMarker._latlng.lat.toFixed(5) + ', ' + mainMarker._latlng.lng.toFixed(5);
   });
   map.setView({
     lat: 35.6810912,
