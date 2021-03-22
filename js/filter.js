@@ -1,9 +1,9 @@
-const housingType = document.querySelector('#housing-type');
-const housingRooms = document.querySelector('#housing-rooms');
-const housingPrice = document.querySelector('#housing-price');
-const housingGuests = document.querySelector('#housing-guests');
-const housingFeatures = document.querySelector('#housing-features');
-const featuresCheckbox = housingFeatures.querySelectorAll('input');
+const houseType = document.querySelector('#housing-type');
+const houseRoom = document.querySelector('#housing-rooms');
+const housePrice = document.querySelector('#housing-price');
+const houseGuest = document.querySelector('#housing-guests');
+const houseFeature = document.querySelector('#housing-features');
+const featuresCheckbox = houseFeature.querySelectorAll('input');
 
 const MiddlePrice = {
   min: 10000,
@@ -11,11 +11,11 @@ const MiddlePrice = {
 }
 
 const filterByType = (point) => {
-  return housingType.value === 'any' || point.offer.type === housingType.value;
+  return houseType.value === 'any' || point.offer.type === houseType.value;
 }
 
 const filterByPrice = (point) => {
-  switch (housingPrice.value) {
+  switch (housePrice.value) {
     case 'low':
       return (point.offer.price < MiddlePrice.min);
     case 'middle':
@@ -23,16 +23,16 @@ const filterByPrice = (point) => {
     case 'high':
       return (point.offer.price > MiddlePrice.max);
     default:
-      return (housingPrice.value === 'any');
+      return (housePrice.value === 'any');
   }
 }
 
 const filterByRooms = (point) => {
-  return housingRooms.value === 'any' || point.offer.rooms === Number(housingRooms.value);
+  return houseRoom.value === 'any' || point.offer.rooms === Number(houseRoom.value);
 }
 
 const filterByGuests = (point) => {
-  return housingGuests.value === 'any' || point.offer.guests === Number(housingGuests.value);
+  return houseGuest.value === 'any' || point.offer.guests === Number(houseGuest.value);
 }
 
 const filterByFeatures = (point) => {

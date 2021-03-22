@@ -95,18 +95,18 @@ const showFormAlert = (message) => {
   const errorButton = errorBlock.querySelector('.error__button');
 
   const removeListener = () => {
-    document.removeEventListener('keydown', escEvent);
-    document.removeEventListener('click', errRemove);
+    document.removeEventListener('keydown', closeEscEvent);
+    document.removeEventListener('click', removeError);
   }
 
-  const escEvent = (evt) => {
+  const closeEscEvent = (evt) => {
     if (isEscEvent(evt)) {
       errorBlock.remove();
       removeListener();
     }
   }
 
-  const errRemove = () => {
+  const removeError = () => {
     errorBlock.remove();
     removeListener();
   }
@@ -115,8 +115,8 @@ const showFormAlert = (message) => {
   errorBlock.querySelector('.error__message').textContent = message;
   document.body.append(errorBlock);
 
-  document.addEventListener('keydown', escEvent);
-  document.addEventListener('click', errRemove);
+  document.addEventListener('keydown', closeEscEvent);
+  document.addEventListener('click', removeError);
 }
 
 const showFormSucces = (message) => {
